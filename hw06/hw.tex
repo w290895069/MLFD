@@ -1,0 +1,81 @@
+\documentclass{article}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amssymb,bm}
+\usepackage{mathtools}
+
+\geometry{letterpaper, portrait, margin=1in}
+\setstretch{1.5}
+\title{Homework 6}
+%\date{1-18-2020}
+\author{Runmin Lu}
+
+\begin{document}
+	\maketitle
+	%\newpage
+	
+	\section*{Exercise 3.4}
+	\subsection*{(a)}
+		\begin{align*}
+			\hat{\mathbf y} &= \mathbf X \mathbf w_{\text{lin}}\\
+			&= \mathbf X(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf y\\
+			&= \mathbf X(\mathbf X^T\mathbf X)^{-1}\mathbf X^T(\mathbf X\mathbf w^* + \bm\epsilon)\\
+			&= \mathbf X(\mathbf X^T\mathbf X)^{-1}\mathbf X^T\mathbf X\mathbf w^* + \mathbf X(\mathbf X^T\mathbf X)^{-1}\mathbf X^T \bm\epsilon\\
+			&= \mathbf{Xw}^* + \mathbf H\bm\epsilon
+		\end{align*}
+	\subsection*{(b)}
+		\begin{align*}
+			\hat{\mathbf y} - \mathbf y &= \mathbf{Xw}^* + \mathbf H\bm\epsilon - (\mathbf{Xw}^* + \bm\epsilon)\\
+			 &= \mathbf H\bm\epsilon - \bm\epsilon\\
+			 &= (\mathbf H - \mathbf I)\bm\epsilon
+		\end{align*}
+	\subsection*{(c)}
+		\begin{align*}
+			E_\text{in}(\mathbf w_{\text{lin}}) &= \frac1N\sum\limits_{i=1}^N(\hat y_i - y_i)^2\\
+			&= \frac1N||\hat{\mathbf y} - \mathbf y||^2\\
+			&= \frac1N||(\mathbf H - \mathbf I)\bm\epsilon||^2\\
+			&= \frac1N||(\mathbf I - \mathbf H)\bm\epsilon||^2\\
+			&= \frac1N\bm\epsilon^T(\mathbf I - \mathbf H)^T(\mathbf I - \mathbf H)\bm\epsilon\\
+			&= \frac1N\bm\epsilon^T(\mathbf I - \mathbf H)^2\bm\epsilon\\
+			&= \frac1N\bm\epsilon^T(\mathbf I - \mathbf H)\bm\epsilon\\
+		\end{align*}
+		
+	\subsection*{(d)}
+		\begin{align*}
+			\mathbb E_{\mathcal D}[E_\text{in}(\mathbf w_{\text{lin}})] &= \mathbb E_{\mathcal D}[ \frac1N\bm\epsilon^T(\mathbf I - \mathbf H)\bm\epsilon ]\\
+			&= \frac1N\mathbb E_{\mathcal D}[ \bm\epsilon^T(\mathbf I - \mathbf H)\bm\epsilon ]\\
+			&= \frac1N\mathbb E_{\mathcal D}[ \bm\epsilon^T\bm\epsilon - \bm\epsilon^T\mathbf H\bm\epsilon ]\\
+			&= \frac1N(\mathbb E_{\mathcal D}[||\bm\epsilon||^2] - \mathbb E_{\mathcal D}[\bm\epsilon^T\mathbf H\bm\epsilon])\\
+			\mathbb E_{\mathcal D}[||\bm\epsilon||^2] &= \sum\limits_{i=1}^N\mathbb E_{\mathcal D}[\epsilon_i^2]\\
+			&=N\sigma^2\\
+			\bm\epsilon^T\mathbf H\bm\epsilon &= \sum\limits_{i=1}^N\sum\limits_{j=1}^NH_{ij}\epsilon_i\epsilon_j\\
+			\mathbb E_{\mathcal D}[\epsilon_i\epsilon_j] &=
+			\begin{cases}
+				\sigma^2 &i = j\\
+				0 &i \neq j
+			\end{cases}\\
+			\mathbb E_{\mathcal D}[\bm\epsilon^T\mathbf H\bm\epsilon] &= \sum\limits_{i = 1}^NH_{ii}\sigma^2\\
+			&= \sigma^2\text{trace}(\mathbf H)\\
+			&= \sigma^2(d+1)\\
+			\mathbb E_{\mathcal D}[E_\text{in}(\mathbf w_{\text{lin}})] &= \frac1N(N\sigma^2 - \sigma^2(d+1))\\
+			&= \sigma^2(1 - \frac{d+1}N)
+		\end{align*}
+		
+	\subsection*{(e)}
+		\begin{align*}
+			\mathbf y' &= \mathbf X\mathbf w^* + \bm\epsilon'\\
+			\hat{\mathbf y} - \mathbf y' &= \mathbf{Xw}^* + \mathbf H\bm\epsilon - (\mathbf{Xw}^* + \bm\epsilon')\\
+			&= \mathbf H\bm\epsilon - \bm\epsilon'\\
+			E_\text{test}(\mathbf w_{\text{lin}}) &=\frac1N||\hat{\mathbf y} - \mathbf y'||^2\\
+			&= \frac1N||\mathbf H\bm\epsilon - \bm\epsilon'||^2\\
+			&= \frac1N(\bm\epsilon^T\mathbf H^T\mathbf H\bm\epsilon - 2\bm\epsilon'^T\mathbf H\bm\epsilon + ||\bm\epsilon'||^2)\\
+			&= \frac1N(\bm\epsilon^T\mathbf H\bm\epsilon - 2\bm\epsilon'^T\mathbf H\bm\epsilon + ||\bm\epsilon'||^2)\ \ \ \ \ (\text{from Exercise 3.3 (b)})\\
+			\mathbb E_{\mathcal D, \bm\epsilon'}[E_\text{test}(\mathbf w_{\text{lin}})] &= \frac1N(\mathbb E_{\mathcal D, \bm\epsilon'}[\bm\epsilon^T\mathbf H\bm\epsilon] - \mathbb E_{\mathcal D, \bm\epsilon'}[2\bm\epsilon'^T\mathbf H\bm\epsilon] + \mathbb E_{\mathcal D, \bm\epsilon'}[||\bm\epsilon'||^2])\\
+			\bm\epsilon'^T\mathbf H\bm\epsilon &= \sum\limits_{i=1}^N\sum\limits_{j=1}^NH_{ij}\epsilon_i'\epsilon_j\\
+			\mathbb E_{\mathcal D, \bm\epsilon'}[\epsilon_i'\epsilon_j] &= 0\\
+			\mathbb E_{\mathcal D, \bm\epsilon'}[\bm\epsilon'^T\mathbf H\bm\epsilon] &= 0\\
+			\mathbb E_{\mathcal D, \bm\epsilon'}[E_\text{test}(\mathbf w_{\text{lin}})] &=\frac1N(\sigma^2(d+1) - 0 + N\sigma^2)\\
+			&= \sigma^2(1 + \frac{d+1}N)
+		\end{align*}
+\end{document}
