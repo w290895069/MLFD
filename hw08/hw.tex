@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{setspace}
+\usepackage{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsthm,amssymb,bm}
+\usepackage{mathtools}
+
+\geometry{letterpaper, portrait, margin=1in}
+\setstretch{1.5}
+\title{Homework 8}
+%\date{1-18-2020}
+\author{Runmin Lu}
+
+\begin{document}
+	\maketitle
+	%\newpage
+	
+	\section*{Exercise 4.3}
+	\subsection*{(a)}
+		Deterministic noise will go up because $f$ becomes more complex for $\mathcal H$ to model.\\
+		There's a higher tendency to overfit because overfitting increases as target comlexity increases.
+	\subsection*{(b)}
+		Deterministic noise will go up because $h^*$ from a simpler $\mathcal H$ performs at most as well as $h^*$ from a more complex $\mathcal H$ since the simpler $\mathcal H$ is a subset of the more complex $\mathcal H$.\\
+		There's a lower tendency to overfit because a simpler $\mathcal H$ is less likely to be led astray by noise.
+		
+	\section*{Exercise 4.5}
+	\subsection*{(a)}
+		Guess $\Gamma = I$\\
+		Verify:
+		\begin{align*}
+			\mathbf w^T\Gamma^T\Gamma\mathbf w &= \mathbf w^TI^TI\mathbf w\\
+			&= \mathbf w^TII\mathbf w\\
+			&= \mathbf w^T\mathbf w\\
+			&= \sum\limits_{q = 0}^Qw_q^2
+		\end{align*}
+	\subsection*{(b)}
+		\begin{align*}
+			\mathbf w^T\Gamma^T\Gamma\mathbf w &= (\sum\limits_{q = 0}^Qw_q)^2\\
+			&= \sum\limits_{i = 0}^Qw_i\sum\limits_{j = 0}^Qw_j\\
+			&= (\sum\limits_{j = 0}^Qw_j, ..., \sum\limits_{j = 0}^Qw_j)\mathbf w\\
+			\mathbf w^T\Gamma^T\Gamma &= (\sum\limits_{j = 0}^Qw_j, ..., \sum\limits_{j = 0}^Qw_j)\\
+			\forall \text{ column index } i: \mathbf w^T(\Gamma^T\Gamma)_i &= \sum\limits_{j = 0}^Qw_j\\
+			&= \mathbf w^T \mathbf 1 \text{ where } \mathbf 1 \text{ is the vector of all 1's}\\
+			\Gamma^T\Gamma &=
+			\begin{pmatrix}
+				1&1&...&1\\
+				1&1&...&1\\
+				...&...&...&...\\
+				1&1&...&1
+			\end{pmatrix}\text{ of dimeision }(Q+1)\times (Q+1)
+		\end{align*}
+		The inner product of any 2 columns of $\Gamma$ is 1.
+		\begin{align*}
+			\Gamma &= \begin{pmatrix}
+				\frac1{\sqrt{Q+1}}&\frac1{\sqrt{Q+1}}&...&\frac1{\sqrt{Q+1}}\\
+				\frac1{\sqrt{Q+1}}&\frac1{\sqrt{Q+1}}&...&\frac1{\sqrt{Q+1}}\\
+				...&...&...&...\\
+				\frac1{\sqrt{Q+1}}&\frac1{\sqrt{Q+1}}&...&\frac1{\sqrt{Q+1}}
+			\end{pmatrix}\\
+		\end{align*}
+		
+	\section*{Exercise 4.6}
+		The hard-order constraint is more useful because as the hint says, the norm of $\mathbf w$ is irrelevant. If we use the soft-order constraint, then for any $\mathbf w$ with $\mathbf w^T\mathbf w > C$, we can just multiply $\mathbf w$ by some positive number $\alpha$ that's small enough to satisfy the constraint but the still perform the same classification because $sign(\mathbf w^T\mathbf x) = sign(\alpha\mathbf w^T\mathbf x)$ for all $\mathbf x$.
+		
+	\section*{Exercise 4.7}
+	\subsection*{(a)}
+		Given that the validation error $E_{\text{val}}(g^-) = \frac1K \sum\limits_{(\mathbf x, y) \in \mathcal D_{\text{val}}}e(g^-(\mathbf x), y)$, we have
+		\begin{align*}
+			\sigma_{\text{val}}^2 &= \text{Var}_{\mathcal D_{\text{val}}}[E_{\text{val}}(g^-)]\\
+			&= \text{Var}_{\mathcal D_{\text{val}}}[\frac1K \sum\limits_{(\mathbf x, y) \in \mathcal D_{\text{val}}}e(g^-(\mathbf x), y)]\\
+			&= \frac1{K^2} \text{Var}_{\mathcal D_{\text{val}}}[\sum\limits_{(\mathbf x, y) \in \mathcal D_{\text{val}}}e(g^-(\mathbf x), y)]\\
+			&= \frac1{K^2} \sum\limits_{i = 1}^K\text{Var}_{\mathbf x}[e(g^-(\mathbf x), y]\ \ \ \ \ (\mathbf x, y) \in \mathcal D \text{ are IID}\\
+			&= \frac1K\text{Var}_{\mathbf x}[e(g^-(\mathbf x), y]\\
+			&= \frac1K \sigma^2(g^-)
+		\end{align*}
+	\subsection*{(b)}
+		\begin{align*}
+			\sigma_{\text{val}}^2 &= \frac1K\text{Var}_{\mathbf x}[e(g^-(\mathbf x), y)]\\
+			&= \frac1K\text{Var}_{\mathbf x}[[g^-(\mathbf x) \neq y]]\\
+			&= \boxed{\frac1K\mathbb P[g^-(\mathbf x) \neq y](1 - \mathbb P[g^-(\mathbf x) \neq y]) }
+		\end{align*}
+		
+	\subsection*{(c)}
+		Lemma: $f(x) = x(1-x)$ has global maximum $\frac14$
+		Proof:
+		\begin{align*}
+			\frac{df}{dx} &= -2x + 1 = 0\\dx
+			x &= \frac12 \text{ is a critical point}\\
+			\frac{d^2f}{dx^2} &= -2 < 0 \implies \text{ global max}
+		\end{align*}
+		\begin{align*}
+			\sigma_{\text{val}}^2 &= \frac1K\mathbb P[g^-(\mathbf x) \neq y](1 - \mathbb P[g^-(\mathbf x) \neq y])\\
+			&\leq \frac1K(\frac14)\\
+			&= \frac1{4K}
+		\end{align*}
+		
+	\subsection*{(d)}
+		As the hint says, the squared error is unbounded. $y$ can be as far from $g^-(\mathbf x)$ as possible so there's no uniform upper bound.
+	\subsection*{(e)}
+		Training with fewer points results in a higher error bar, which results in a higher upper bound for $E_{\text{out}(g^-)}$, which is the mean of $e(g^-(\mathbf x), y)$. As the hint says, the variance also increases.
+	\subsection*{(f)}
+		Given that $E_\text{out} \leq E_\text{val} + O(\frac1{\sqrt K})$. As we increase $K$, $O(\frac1{\sqrt K})$ will get smaller but $E_\text{val}$, whose expected value is $E_\text{out}$, will get larger since we train using fewer points, resulting in a larger error bar.
+	\section*{4.8}
+		Yes because it only depends on the model, the training data, and the testing data. No other intervention is done in computing $E_m$.
+\end{document}
