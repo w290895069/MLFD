@@ -65,8 +65,7 @@ if __name__ == '__main__':
 
     k_best = 0
     e_best = 1
-    c_best = None
-    w_best = None
+
     for k in ks:
         e = 0
         for i in range(len(d_train)):
@@ -82,8 +81,9 @@ if __name__ == '__main__':
         if e <= e_best:
             e_best = e
             k_best = k
-            w_best = w
-            c_best = centers
+
+    c_best = k_center([d[0] for d in d_train], k_best)
+    w_best = regression([[1] + transform(d[0], c_best) for d in d_train], [d[1] for d in d_train])
     print('best k:', k_best)
     print('cv error:', e_best)
     print('E_in:', error(d_train, w_best, c_best))
