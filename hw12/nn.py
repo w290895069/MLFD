@@ -75,12 +75,7 @@ def classify(w, x):
 if __name__ == '__main__':
     w = init_nn(2, lambda : 0.25)
     v_x = np.array([1.0, 1.0, 2.0])
-    # print(get_gradients([(v_x, 1)], w, lambda x: x, lambda x: 1))
-    # print(get_gradients(v_x, 1, w, np.tanh, lambda x: 1 - np.tanh(x) ** 2))
-    # print(get_gradients_numerical(v_x, 1, w, lambda x: x))
-    # print(get_gradients_numerical(v_x, 1, w, np.tanh))
-
-    g = get_gradients([(v_x, 1)], w, lambda x: x, lambda x: 1)
-    # print(w)
-    print(update_ret(w, g, 1))
-    print(w)
+    print(get_gradients([(v_x, 1)], w, lambda x: x, lambda x: 1))
+    print(get_gradients([(v_x, 1)], w, np.tanh, lambda x: 1 - np.tanh(x) ** 2))
+    print(get_gradients_numerical(v_x, 1, w, lambda x: x))
+    print(get_gradients_numerical(v_x, 1, w, np.tanh))
